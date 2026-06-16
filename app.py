@@ -8,25 +8,26 @@
 # from crypt import methods
 # from pydoc import doc
 from flask import Flask, request, jsonify;
+from flask_cors import CORS #importação para HTML
 
 app = Flask(__name__)
+CORS(app) #libera o acesso para o Front-End bater na API
 
 
 def gerar_doc(dados, tipo): 
     """Função que centraliza a lógica de qual formulário gerar"""
 
     if tipo == "1":
-        return f"Eu, {dados['nome']}, inscrito no CPF {dados['cpf']}, venho por meio deste apresentar meu pedido de demissão."
-
-    elif tipo == "2":
         return f"DECLARAÇÃO DE RESPONSÁVEIS: Eu, {dados['nome']}, portador do CPF {dados['cpf']}, autorizo meu filho a participar da viagem escolar com destino à Disney"
+    elif tipo == "2":
+        return f"DECLARAÇÃO DE RESIDÊNCIA: Eu, {dados['nome']}, portador do CPF {dados['cpf']}, declaro que resido no endereço {dados['endereco']} referente ao trabalho de autônomo de desenvolvedor."
     
     
     elif tipo == "3":
-        return f"DECLARAÇÃO DE RESIDÊNCIA: Eu, {dados['nome']}, portador do CPF {dados['cpf']}, declaro que resido no endereço {dados['endereco']} referente ao trabalho de autônomo de desenvolvedor."
+        return f"DECLARAÇÃO DE RENDA: Eu, {dados['nome']}, portador do CPF {dados['cpf']}, declaro que recebo o valor médio de {dados['renda']} referente ao trabalho de autônomo de desenvolvedor."
 
     elif tipo == "4":
-        return f"DECLARAÇÃO DE RENDA: Eu, {dados['nome']}, portador do CPF {dados['cpf']}, declaro que recebo o valor médio de {dados['renda']} referente ao trabalho de autônomo de desenvolvedor."
+        return f"DECLARAÇÃO DE DOADOR DE MEDULA ÓSSEA: EU, {dados['nome']}, portador do CPF {dados['cpf']}, residente na rua {dados['endereco']}, declaro para os devidos fins que sou doador voluntário de medula óssea."
 
     else:
         return "!Erro: Esse formulário ainda não existe!"
@@ -37,8 +38,8 @@ def gerar_doc(dados, tipo):
     #'enconding="utf-8", serve para não quebrar os acentos em portugues
 def salvar (arquivo, conteudo):
 
-    with open(arquivo, "w", encoding="utf-8") as arquivo:
-        arquivo.write(conteudo)
+    with open(arquivo, "w", encoding="utf-8") as arquivo_fisico:
+        arquivo_fisico.write(conteudo)
         print(f"\nArquivo salvo na pasta '{arquivo}'")
 
 #criando rota de API
